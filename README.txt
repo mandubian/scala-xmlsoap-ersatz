@@ -23,5 +23,5 @@ Have fun!
 Pascal
 
 
-=== Credits to Etienne Valette d'Osia for inspiring/tackling draft version of this code ;) ===
+=== Credits to Étienne Vallette d'Osia for inspiring/tackling draft version of this code ;) ===
 

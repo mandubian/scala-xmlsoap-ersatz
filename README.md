@@ -29,4 +29,4 @@ More information+tuto in the [wiki](https://github.com/mandubian/scala-xmlsoap-e
 Have fun!  
 Pascal
 
-> **Credits to Etienne Valette d'Osia for inspiring/tackling draft version of this code ;)**
+> **Credits to Étienne Vallette d'Osia for inspiring/tackling draft version of this code ;)**
