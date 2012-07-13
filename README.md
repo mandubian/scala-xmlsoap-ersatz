@@ -23,6 +23,7 @@ You may use this api if like me:
 
 _This is a draft module providing raw mechanisms. Don't hesitate to contribute to make it better ;)_
 
+More information+tuto in the [wiki](https://github.com/mandubian/scala-xmlsoap-ersatz/wiki)
 Have fun!  
 Pascal
 
