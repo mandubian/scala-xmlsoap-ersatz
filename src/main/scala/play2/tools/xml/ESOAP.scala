@@ -27,7 +27,7 @@ trait ESOAP {
 }
 
 
-case class SoapEnvelope[T](t: T)(implicit _namespace: NamespaceBinding = xml.TopScope) {
+case class SoapEnvelope[T](t: T)(implicit _namespace: NamespaceBinding = ESOAP.SoapNS) {
 	def namespace = _namespace
 }
 
@@ -50,7 +50,7 @@ object SoapFault {
 }
 
 
-object DefaultImplicits extends DefaultSOAPFormatters with DefaultReaders with DefaultWriters
+object DefaultImplicits extends DefaultSOAPFormatters with BasicReaders with SpecialReaders with BasicWriters with SpecialWriters
 
 trait DefaultSOAPFormatters {
 	

@@ -21,7 +21,9 @@ trait EXML {
     def fromXML[T](x: xml.NodeSeq)(implicit r: XMLReader[T]): Option[T] = r.read(x)   
 }
 
-trait DefaultReaders {
+object BasicReaders extends BasicReaders
+
+trait BasicReaders {
 	implicit object StringReader extends XMLReader[String] {
 		def read(x: xml.NodeSeq): Option[String] = Some(x.text)
 	}
@@ -49,9 +51,15 @@ trait DefaultReaders {
 	implicit object BooleanReader extends XMLReader[Boolean] {
 		def read(x: xml.NodeSeq): Option[Boolean] = try { Some(x.text.toBoolean) } catch { case _ => None}
 	}
+}
 
+object SpecialReaders extends SpecialReaders 
+
+trait SpecialReaders {
 	implicit def OptionReader[T](implicit r: XMLReader[T]) = new XMLReader[Option[T]] {
-		def read(x: xml.NodeSeq): Option[Option[T]] = Some(r.read(x))
+		def read(x: xml.NodeSeq): Option[Option[T]] = {
+			if((x \ "@nil").text == "true") Some(None) else Some(r.read(x))
+		}
 	}
 
 	implicit def traversableReader[F[_], A](implicit bf: generic.CanBuildFrom[F[_], A, F[A]], r: XMLReader[A]) = new XMLReader[F[A]] {
@@ -73,7 +81,9 @@ trait DefaultReaders {
 	}
 }
 
-trait DefaultWriters {
+object BasicWriters extends BasicWriters
+
+trait BasicWriters {
 	implicit object StringWriter extends XMLWriter[String] {
 		def write(s: String, base: xml.NodeSeq): xml.NodeSeq = base.collectFirst{ case e: xml.Elem => e.copy(child = xml.Text(s)) }.getOrElse(xml.Text(s))
 	}
@@ -101,6 +111,11 @@ trait DefaultWriters {
 	implicit object BooleanWriter extends XMLWriter[Boolean] {
 		def write(s: Boolean, base: xml.NodeSeq): xml.NodeSeq = StringWriter.write(s.toString, base)
 	}
+}
+
+object SpecialWriters extends SpecialWriters 
+
+trait SpecialWriters {
 
 	val xsiNS = xml.NamespaceBinding("xsi", "http://www.w3.org/2001/XMLSchema-instance", xml.TopScope)
 

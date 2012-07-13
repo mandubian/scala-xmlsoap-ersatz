@@ -55,6 +55,25 @@ class EXMLSpec extends Specification {
         )
     }
 
+    "deserialize XML with option nil=true" in {
+      EXML.fromXML[Foo](<foo>
+            <id>1234</id>
+            <name>albert</name>
+            <age>23</age>
+            <amount>123.456</amount>
+            <isX>true</isX>
+            <opt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+            <numbers>
+              <nb>123</nb>
+              <nb>57</nb>
+            </numbers>
+            <map>
+              <item><key>alpha</key><value>23</value></item>
+              <item><key>beta</key><value>87</value></item>
+            </map>
+          </foo>) must equalTo(Some(Foo(1234L, "albert", 23, 123.456F, true, None, List(123, 57), Map("alpha" -> 23.toShort, "beta" -> 87.toShort))))
+    }
+
     "deserialize XML" in {
       EXML.fromXML[Foo](<foo>
             <id>1234</id>
