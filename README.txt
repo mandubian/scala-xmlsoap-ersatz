@@ -22,3 +22,6 @@ This is a draft module providing raw mechanisms. Don't hesitate to contribute to
 Have fun!
 Pascal
 
+
+=== Credits to Etienne Valette d'Osia for inspiring/tackling draft version of this code ;) ===
+

@@ -25,6 +25,8 @@ _This is a draft module providing raw mechanisms. Don't hesitate to contribute t
 
 More information+tuto in the [wiki](https://github.com/mandubian/scala-xmlsoap-ersatz/wiki)
 
+
 Have fun!  
 Pascal
 
+> **Credits to Etienne Valette d'Osia for inspiring/tackling draft version of this code ;)**
