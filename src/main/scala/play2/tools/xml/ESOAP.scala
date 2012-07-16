@@ -50,7 +50,9 @@ object SoapFault {
 }
 
 
-object DefaultImplicits extends DefaultSOAPFormatters with BasicReaders with SpecialReaders with BasicWriters with SpecialWriters
+object DefaultImplicits extends DefaultImplicits
+
+trait DefaultImplicits extends DefaultSOAPFormatters with BasicReaders with SpecialReaders with BasicWriters with SpecialWriters
 
 trait DefaultSOAPFormatters {
 	
