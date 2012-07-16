@@ -58,7 +58,10 @@ object SpecialReaders extends SpecialReaders
 trait SpecialReaders {
 	implicit def OptionReader[T](implicit r: XMLReader[T]) = new XMLReader[Option[T]] {
 		def read(x: xml.NodeSeq): Option[Option[T]] = {
-			if((x \ "@nil").text == "true") Some(None) else Some(r.read(x))
+			x.collectFirst{ case e: xml.Elem => e }.map{ e => 
+				if(e.attributes.exists{ a => a.key == "nil" && a.value.text == "true" }) None
+				else r.read(e)
+			}.orElse(Some(None))
 		}
 	}
 
