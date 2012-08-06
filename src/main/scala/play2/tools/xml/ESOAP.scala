@@ -84,12 +84,13 @@ trait DefaultSOAPFormatters {
 
     implicit def SoapFaultReader[T](implicit fmt: XMLReader[T]) = new XMLReader[SoapFault[T]] {
         def read(x: xml.NodeSeq): Option[SoapFault[T]] = {
-        	x.collectFirst{ case x:xml.Elem if(x.label == "Fault") => x}.map { elt =>
+        	val envelope = (x \\ "Fault")
+                envelope.collectFirst{ case x:xml.Elem if(x.label == "Fault") => x}.map { elt =>
         		SoapFault(
         			faultcode = (elt \ "faultcode").text,
-					faultstring = (elt \ "faultstring").text,
-					faultactor = (elt \ "faultactor").text,
-					detail = fmt.read( elt \ "detail").get
+                                faultstring = (elt \ "faultstring").text,
+                                faultactor = (elt \ "faultactor").text,
+                                detail = fmt.read( elt \ "detail").get
         		)
         	}
         }
