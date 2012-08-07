@@ -25,7 +25,7 @@ object BasicReaders extends BasicReaders
 
 trait BasicReaders {
 	implicit object StringReader extends XMLReader[String] {
-		def read(x: xml.NodeSeq): Option[String] = Some(x.text)
+		def read(x: xml.NodeSeq): Option[String] = if(x.isEmpty) None else Some(x.text)
 	}
 
 	implicit object IntReader extends XMLReader[Int] {
