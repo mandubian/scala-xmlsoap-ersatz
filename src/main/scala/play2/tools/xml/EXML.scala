@@ -24,32 +24,34 @@ trait EXML {
 object BasicReaders extends BasicReaders
 
 trait BasicReaders {
+        import scala.util.control.Exception._
+
 	implicit object StringReader extends XMLReader[String] {
 		def read(x: xml.NodeSeq): Option[String] = if(x.isEmpty) None else Some(x.text)
 	}
 
 	implicit object IntReader extends XMLReader[Int] {
-		def read(x: xml.NodeSeq): Option[Int] = try { Some(x.text.toInt) } catch { case _ => None}
+		def read(x: xml.NodeSeq): Option[Int] = if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toInt
 	}
 
 	implicit object LongReader extends XMLReader[Long] {
-		def read(x: xml.NodeSeq): Option[Long] = try { Some(x.text.toLong) } catch { case _ => None}
+		def read(x: xml.NodeSeq): Option[Long] =  if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toLong
 	}
 
 	implicit object ShortReader extends XMLReader[Short] {
-		def read(x: xml.NodeSeq): Option[Short] = try { Some(x.text.toShort) } catch { case _ => None}
+		def read(x: xml.NodeSeq): Option[Short] =  if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toShort
 	}
 
 	implicit object FloatReader extends XMLReader[Float] {
-		def read(x: xml.NodeSeq): Option[Float] = try { Some(x.text.toFloat) } catch { case _ => None}
+		def read(x: xml.NodeSeq): Option[Float] =  if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toFloat
 	}
 
 	implicit object DoubleReader extends XMLReader[Double] {
-		def read(x: xml.NodeSeq): Option[Double] = try { Some(x.text.toDouble) } catch { case _ => None}
+		def read(x: xml.NodeSeq): Option[Double] =  if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toDouble
 	}
 
 	implicit object BooleanReader extends XMLReader[Boolean] {
-		def read(x: xml.NodeSeq): Option[Boolean] = try { Some(x.text.toBoolean) } catch { case _ => None}
+		def read(x: xml.NodeSeq): Option[Boolean] =  if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toBoolean
 	}
 }
 
