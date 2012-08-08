@@ -68,7 +68,7 @@ trait DefaultSOAPFormatters {
         }
     }
 
-	implicit def SoapEnvelopeWriter[T](implicit fmt: XMLWriter[T]) = new XMLWriter[SoapEnvelope[T]] {
+    implicit def SoapEnvelopeWriter[T](implicit fmt: XMLWriter[T]) = new XMLWriter[SoapEnvelope[T]] {
         def write(st: SoapEnvelope[T], base: xml.NodeSeq) = {
             val env = <soapenv:Envelope>
 						<soapenv:Header/>
@@ -82,16 +82,21 @@ trait DefaultSOAPFormatters {
         }
     }    
 
-    implicit def SoapFaultReader[T](implicit fmt: XMLReader[T]) = new XMLReader[SoapFault[T]] {
+    implicit def SoapFaultReader[T](implicit fmt: XMLReader[T], strR:XMLReader[String]) = new XMLReader[SoapFault[T]] {
         def read(x: xml.NodeSeq): Option[SoapFault[T]] = {
-        	x.collectFirst{ case x:xml.Elem if(x.label == "Fault") => x}.map { elt =>
-        		SoapFault(
-        			faultcode = (elt \ "faultcode").text,
-					faultstring = (elt \ "faultstring").text,
-					faultactor = (elt \ "faultactor").text,
-					detail = fmt.read( elt \ "detail").get
-        		)
-        	}
+        	val envelope = (x \\ "Fault")
+                envelope.headOption.flatMap[SoapFault[T]]( {elt => 
+                  ( 
+                    strR.read(elt \ "faultcode"), strR.read(elt \ "faultstring"), strR.read(elt \ "faultactor"), fmt.read(elt \ "detail") 
+                  ) match {
+                    case (None,_,_,_) => {println("Code part missing in SOAP Fault"); None} 
+                    case (_,None,_,_) => {println("Message part missing in SOAP Fault"); None} 
+                    case (_,_,None,_) => {println("Actor part missing in SOAP Fault"); None} 
+                    case (_,_,_,None) => {println("Detail part missing in SOAP Fault"); None} 
+                    case (Some(code),Some(msg),Some(actor),Some(detail)) => {Some(SoapFault(code, msg, actor, detail))} 
+                    case _ => None
+                  }
+                })
         }
     }
 

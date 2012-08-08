@@ -101,5 +101,39 @@ class EXMLSpec extends Specification {
             <isX>true</isX>
           </foo>) must equalTo(None)
     }
+
+    "deserialize Int accordingly to Some or None" in {
+      EXML.fromXML[Int](<ab>123</ab>) must equalTo(Some(123))
+      EXML.fromXML[Int](<ab>abc</ab>) must equalTo(None)
+      EXML.fromXML[Int](<ab>12</ab> \\ "tag") must equalTo(None)
+    }
+    
+    "deserialize Short accordingly to Some or None" in {
+      EXML.fromXML[Short](<ab>123</ab>) must equalTo(Some(123))
+      EXML.fromXML[Short](<ab>abc</ab>) must equalTo(None)
+      EXML.fromXML[Short](<ab>12</ab> \\ "tag") must equalTo(None)
+    }
+    
+    "deserialize Long accordingly to Some or None" in {
+      EXML.fromXML[Long](<ab>123</ab>) must equalTo(Some(123))
+      EXML.fromXML[Long](<ab>abc</ab>) must equalTo(None)
+      EXML.fromXML[Long](<ab>12</ab> \\ "tag") must equalTo(None)
+    }
+    
+    "deserialize Float accordingly to Some or None" in {
+      EXML.fromXML[Float](<ab>123</ab>) must equalTo(Some(123))
+      EXML.fromXML[Float](<ab>abc</ab>) must equalTo(None)
+      EXML.fromXML[Float](<ab>12</ab> \\ "tag") must equalTo(None)
+    }
+    "deserialize Double accordingly to Some or None" in {
+      EXML.fromXML[Double](<ab>123</ab>) must equalTo(Some(123))
+      EXML.fromXML[Double](<ab>abc</ab>) must equalTo(None)
+      EXML.fromXML[Double](<ab>12</ab> \\ "tag") must equalTo(None)
+    }
+    "deserialize Boolean accordingly to Some or None" in {
+      EXML.fromXML[Boolean](<ab>true</ab>) must equalTo(Some(true))
+      EXML.fromXML[Boolean](<ab>abc</ab>) must equalTo(None)
+      EXML.fromXML[Boolean](<ab>12</ab> \\ "tag") must equalTo(None)
+    }
   }
 }
