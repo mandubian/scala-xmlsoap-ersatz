@@ -5,7 +5,7 @@ organization := "play2.tools.xml"
 version := "0.2-SNAPSHOT"
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2" % "1.7.1" % "test",
+  "org.specs2" %% "specs2" % "2.2.2" % "test",
   "junit" % "junit" % "4.8" % "test"  
 )
 
