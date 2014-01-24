@@ -34,8 +34,8 @@ case class SoapEnvelope[T](t: T)(implicit _namespace: NamespaceBinding = ESOAP.S
 case class SoapFault[T](
 	faultcode: String,
 	faultstring: String,
-	faultactor: String,
-	detail: T
+	faultactor: Option[String] = None,
+	detail: Option[T] = Option.empty[T]
 )
 
 object SoapFault {
@@ -90,10 +90,8 @@ trait DefaultSOAPFormatters {
                     strR.read(elt \ "faultcode"), strR.read(elt \ "faultstring"), strR.read(elt \ "faultactor"), fmt.read(elt \ "detail") 
                   ) match {
                     case (None,_,_,_) => {println("Code part missing in SOAP Fault"); None} 
-                    case (_,None,_,_) => {println("Message part missing in SOAP Fault"); None} 
-                    case (_,_,None,_) => {println("Actor part missing in SOAP Fault"); None} 
-                    case (_,_,_,None) => {println("Detail part missing in SOAP Fault"); None} 
-                    case (Some(code),Some(msg),Some(actor),Some(detail)) => {Some(SoapFault(code, msg, actor, detail))} 
+                    case (_,None,_,_) => {println("Message part missing in SOAP Fault"); None}
+                    case (Some(code),Some(msg), actor, detail) => {Some(SoapFault(code, msg, actor, detail))}
                     case _ => None
                   }
                 })
@@ -105,12 +103,10 @@ trait DefaultSOAPFormatters {
 			<soapenv:Fault>
 				<faultcode>{ fault.faultcode }</faultcode>
 				<faultstring>{ fault.faultstring }</faultstring>
-				<faultactor>{ fault.faultactor }</faultactor>
-				<detail>
-				    { 
-				        EXML.toXML(fault.detail)
-				    }
-				</detail>
+				{ if (fault.faultactor.isDefined)
+				  <faultactor>{ fault.faultactor.get }</faultactor> }
+				{ if (fault.detail.isDefined)
+				  <detail>{ EXML.toXML(fault.detail.get) }</detail> }
 			</soapenv:Fault>
     	}
     }   
