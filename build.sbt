@@ -2,7 +2,7 @@ name := "xmlsoap-ersatz"
 
 organization := "play2.tools.xml"
 
-version := "0.2"
+version := "0.3-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "org.specs2" %% "specs2" % "2.3.7" % "test",

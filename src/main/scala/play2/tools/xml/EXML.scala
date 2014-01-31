@@ -51,7 +51,7 @@ trait BasicReaders {
 	}
 
 	implicit object BooleanReader extends XMLReader[Boolean] {
-		def read(x: xml.NodeSeq): Option[Boolean] =  if(x.isEmpty) None else catching(classOf[NumberFormatException]) opt x.text.toBoolean
+		def read(x: xml.NodeSeq): Option[Boolean] =  if(x.isEmpty) None else catching(classOf[IllegalArgumentException]) opt x.text.toBoolean
 	}
 }
 

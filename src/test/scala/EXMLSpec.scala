@@ -1,3 +1,4 @@
+import org.specs2.matcher.XmlMatchers.beEqualToIgnoringSpace
 import org.specs2.mutable._
 import play2.tools.xml._
 import scala.xml.Utility._
