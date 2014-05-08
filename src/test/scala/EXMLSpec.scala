@@ -1,4 +1,5 @@
 import org.specs2.mutable._
+import org.specs2.matcher.XmlMatchers._
 import play2.tools.xml._
 import scala.xml.Utility._
 import play2.tools.xml.DefaultImplicits._
