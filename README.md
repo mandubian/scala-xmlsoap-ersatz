@@ -1,6 +1,8 @@
 XML/SOAP Ersatz tools
 =====================
 
+[![Build Status](https://travis-ci.org/mandubian/scala-xmlsoap-ersatz.png?branch=master)](https://travis-ci.org/mandubian/scala-xmlsoap-ersatz)
+
 XML/SOAP Ersatz tools, for Scala to read/write XML/SOAP without code generation, annotations or whatever magic. 
 
 **This API is developed & used with Play Framework 2.0 Scala.**
